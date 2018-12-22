@@ -8,6 +8,9 @@
 #include "EngineMain.h"
 #include <memory>
 
+class Level;
+class PlayerController;
+
 class Game: public IGame {
 
 public:
@@ -17,6 +20,8 @@ public:
 private:
   std::shared_ptr<Engine> _engine = nullptr;
   std::shared_ptr<Scene> _scene;
+  std::shared_ptr<Level> _level;
+  std::shared_ptr<PlayerController> _player;
 
 private:
   void _updateGameLogic(float dt);

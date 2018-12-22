@@ -11,7 +11,7 @@ ENDIF(EMSCRIPTEN)
 #SET(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} -M)
 
 include_directories(./engine/include)
-add_executable(cppwrapper main.cpp game/Game.cpp game/Game.h game/objects/Sprite.cpp game/objects/Sprite.h)
+add_executable(cppwrapper main.cpp game/Game.cpp game/Game.h game/objects/Sprite.cpp game/objects/Sprite.h game/level/Level.cpp game/level/Level.h game/objects/PlayerController.cpp game/objects/PlayerController.h)
 
 target_link_libraries(cppwrapper cppeng)
 
