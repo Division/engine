@@ -123,6 +123,9 @@ in vec4 vPosition_worldspace;
 {% if NORMAL_MAP %}
 in vec3 vTangent_worldspace;
 in vec3 vBitangent_worldspace;
+{% if not TERRAIN_LAYER0 %}
+uniform highp sampler2D uNormalMap;
+{% endif %}
 {% endif %}
 
 void main(void) {
@@ -142,6 +145,11 @@ void main(void) {
     vBitangent_worldspace,
     vNormal_worldspace
   );
+
+  {% if not TERRAIN_LAYER0 %}
+  vec3 normal_tangentspace = texture(uNormalMap, vTexCoord0).rgb * 2.0 - 1.0;
+  {% endif %}
+
   // normal_tangentspace should be defined BEFORE (fetch the normal map sampler)
   vec3 normal_worldspace = normalize(TBN * normal_tangentspace);
 {% else %}
@@ -149,7 +157,6 @@ void main(void) {
 {% endif %}
 
 {% if LIGHTING %}
-  //fragmentColor = vec4((normal_worldspace + 0.5) / 2.0, 1);
 {{ lighting("FRAGMENT_MAIN") }}
 {% endif %}
 

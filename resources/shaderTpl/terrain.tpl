@@ -1,8 +1,6 @@
 // TERRAIN ///////////////////////////////////////
 {% if MODE == "FRAGMENT_UNIFORM_DECLARE" %}
 
-{% if SPECULAR_MAP %}uniform highp sampler2D uSpecularMap;{% endif %}
-
 {% if TERRAIN_LAYER0 %}uniform highp sampler2D uTerrainDiffuse0;
 {% if NORMAL_MAP %}uniform highp sampler2D uTerrainNormal0;{% endif %}
 {% endif %}
@@ -35,15 +33,15 @@ uniform highp sampler2D uTerrainSplatmap;
 {% if TERRAIN_LAYER2 %}
 
 {% if NORMAL_MAP %}  vec3 normal_tangentspace = terrainNormal0.rgb * terrainSplatmap.r + terrainNormal1.rgb * terrainSplatmap.g + terrainNormal2.rgb * terrainSplatmap.b;{% endif %}
-{% if SPECULAR_MAP %}  float materialSpecular = terrainSpecularMap.r * terrainSplatmap.r + terrainSpecularMap.g * terrainSplatmap.g + terrainSpecularMap.b * terrainSplatmap.b;{% endif %}
+{% if SPECULAR_MAP %}  materialSpecular = terrainSpecularMap.r * terrainSplatmap.r + terrainSpecularMap.g * terrainSplatmap.g + terrainSpecularMap.b * terrainSplatmap.b;{% endif %}
   fragmentColor *= terrainDiffuse0 * terrainSplatmap.r + terrainDiffuse1 * terrainSplatmap.g + terrainDiffuse2 * terrainSplatmap.b;
 {% else if TERRAIN_LAYER1 %}
 {% if NORMAL_MAP %}  vec3 normal_tangentspace = terrainNormal0.rgb * terrainSplatmap.r + terrainNormal1.rgb * terrainSplatmap.g;{% endif %}
-{% if SPECULAR_MAP %}  float materialSpecular = terrainSpecularMap.r * terrainSplatmap.r + terrainSpecularMap.g * terrainSplatmap.g;{% endif %}
+{% if SPECULAR_MAP %}  materialSpecular = terrainSpecularMap.r * terrainSplatmap.r + terrainSpecularMap.g * terrainSplatmap.g;{% endif %}
   fragmentColor *= terrainDiffuse0 * terrainSplatmap.r + terrainDiffuse1 * terrainSplatmap.g;
 {% else %}
 {% if NORMAL_MAP %}  vec3 normal_tangentspace = terrainNormal0.rgb;{% endif %}
-{% if SPECULAR_MAP %}  float materialSpecular = terrainSpecularMap.r;{% endif %}
+{% if SPECULAR_MAP %}  materialSpecular = terrainSpecularMap.r;{% endif %}
   fragmentColor *= terrainDiffuse0;
 {% endif %}
 

@@ -1,5 +1,7 @@
 {% if MODE == "FRAGMENT_MAIN" %}
-{% if not SPECULAR_MAP %}
+{% if SPECULAR_MAP %}
+  float materialSpecular = texture(uSpecularMap, vTexCoord0).r;
+{% else %}
   float materialSpecular = 1.0;
 {% endif %}
 
@@ -170,6 +172,8 @@ uniform usamplerBuffer uLightIndices;
 uniform highp usampler2D uLightGrid;
 uniform highp usampler2D uLightIndices;
 {% endif %}
+
+{% if SPECULAR_MAP %}uniform highp sampler2D uSpecularMap;{% endif %}
 
 uniform highp sampler2D uProjectorTexture;
 uniform highp sampler2D uShadowMap;

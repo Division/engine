@@ -18,7 +18,8 @@ Level::Level(ScenePtr scene) : _scene(scene) {
   _levelRoot = CreateGameObject<GameObject>();
   _architecture = loader::loadModel(ARCHITECTURE_FILE);
   _architectureAtlas = loader::loadTexture("resources/level/Atlas_Base_01.jpg");
-  _architectureBumpAtlas = loader::loadTexture("resources/level/Atlas_Base_01_Normal.jpg");
+//  _architectureAtlas = loader::loadTexture("resources/white.jpg");
+  _architectureBumpAtlas = loader::loadTexture("resources/level/Atlas_Base_01_Normal.jpg", false);
 }
 
 GameObjectPtr Level::_loadHierarchy(HierarchyDataPtr hierarchy, const GameObjectPtr parentObj) {
@@ -51,13 +52,17 @@ GameObjectPtr Level::_loadHierarchy(HierarchyDataPtr hierarchy, const GameObject
     } else if (referenceNode && referenceNode->hasGeometry) {
       MeshObjectPtr meshObject = CreateGameObject<MeshObject>();
       meshObject->mesh(_architecture->getMesh(referenceNode->geometry));
+      if (!meshObject->mesh()->hasTBN()) {
+        meshObject->mesh()->calculateTBN();
+        meshObject->mesh()->createBuffer();
+      }
       object = meshObject;
 
       ENGLog("original: %s (%s) ", child->originalNodeID.c_str(), child->name.c_str() );
 
-      auto material = std::make_shared<MaterialTextureLighting>();
+      auto material = std::make_shared<MaterialTextureBump>();
       material->texture(_architectureAtlas);
-//      material->normalMap(_architectureBumpAtlas);
+      material->normalMap(_architectureBumpAtlas);
       meshObject->material(material);
     } else {
       object = CreateGameObject<GameObject>();

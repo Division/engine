@@ -10,6 +10,7 @@
 
 class Level;
 class PlayerController;
+class FollowCamera;
 
 class Game: public IGame {
 
@@ -22,6 +23,8 @@ private:
   std::shared_ptr<Scene> _scene;
   std::shared_ptr<Level> _level;
   std::shared_ptr<PlayerController> _player;
+  CameraPtr _camera2D;
+  std::shared_ptr<FollowCamera> _camera;
 
 private:
   void _updateGameLogic(float dt);
