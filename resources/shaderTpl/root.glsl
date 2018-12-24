@@ -80,7 +80,15 @@ void main(void) {
 {% if LIGHTING %}  vec3 normal_worldspace = normalize(vNormal_worldspace);{% endif %}
 {% endif %}
 
-{% if LIGHTING %}{{ lighting_fragment_main("") }}{% endif %}
+{% if LIGHTING %}
+{{ lighting_fragment_main("") }}
+{{ lighting_process_point("") }}
+{{ lighting_process_spot("") }}
+{{ lighting_process_projector("") }}
+{{ lighting_process_decal("") }}
+  lightsColor += ambient;
+  fragmentColor *= lightsColor + ambient;
+{% endif %}
 
 {% if TEXTURE0 %}{{ texture_fragment_main("") }}{% endif %}
 
