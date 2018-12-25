@@ -24,6 +24,8 @@ public:
   void update(float dt) override;
 
 private:
+  AnimationPlaybackPtr _runPlayback;
+  AnimationPlaybackPtr _idlePlayback;
   vec3 _speed = vec3(0);
   vec3 _acceleration = vec3(0);
   LightObjectPtr _topLight; // spot light always above the player

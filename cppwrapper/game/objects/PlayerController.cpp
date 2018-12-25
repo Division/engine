@@ -15,7 +15,7 @@ TexturePtr PlayerController::diffuse;
 TexturePtr PlayerController::normal;
 TexturePtr PlayerController::specular;
 
-const float MAX_SPEED = 1.4f;
+const float MAX_SPEED = 9.0f;
 const vec3 DIRECTION_LEFT = vec3(1, 0, -1);
 const vec3 DIRECTION_RIGHT = -DIRECTION_LEFT;
 const vec3 DIRECTION_TOP = vec3(1, 0, 1);
@@ -27,6 +27,13 @@ void PlayerController::start() {
     normal = loader::loadTexture("resources/models/dwarf/dwarf_texture_normal.jpg", false);
     specular = loader::loadTexture("resources/models/dwarf/dwarf_texture_specular.jpg");
   }
+
+  _runPlayback = animation()->getPlayback("run");
+  _idlePlayback = animation()->getPlayback("idle");
+
+  _runPlayback->play(true);
+  _idlePlayback->play(true);
+  _runPlayback->weight(0);
 
   auto material = std::make_shared<MaterialTextureBumpSpecular>();
   material->texture(diffuse);
@@ -77,7 +84,9 @@ void PlayerController::update(float dt) {
 
   _speed *= 0.87f;
 
-  if (!shouldSlowDown) {
+  auto distance = glm::distance2(acceleration, vec3(0));
+
+  if (!shouldSlowDown && distance > 0.001) {
     _acceleration = glm::normalize(acceleration) * 100.0f;
   } else {
     _acceleration = vec3(0);
@@ -90,5 +99,15 @@ void PlayerController::update(float dt) {
   if (sqSpeed > 0.001) {
     auto angle = (float)(atan2(_speed.z, -_speed.x) - M_PI / 2);
     transform()->rotation(glm::angleAxis(angle, vec3(0, 1, 0)));
+    auto maxSpeed = MAX_SPEED;
+    auto speed = sqrtf(sqSpeed);
+    if (speed > MAX_SPEED) {
+      _speed = _speed / speed * MAX_SPEED;
+    }
+
+    auto runWeight = speed / maxSpeed;
+    _runPlayback->weight(runWeight);
+    _idlePlayback->weight(1 - runWeight);
   }
+
 }
