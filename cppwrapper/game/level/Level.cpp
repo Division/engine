@@ -46,7 +46,7 @@ GameObjectPtr Level::_loadHierarchy(HierarchyDataPtr hierarchy, const GameObject
       }
 
       light->radius(30);
-      light->attenuation(0.01, 0.05);
+      light->attenuation(0.01, 0.003);
 
       object = light;
     } else if (referenceNode && referenceNode->hasGeometry) {
@@ -57,8 +57,6 @@ GameObjectPtr Level::_loadHierarchy(HierarchyDataPtr hierarchy, const GameObject
         meshObject->mesh()->createBuffer();
       }
       object = meshObject;
-
-      ENGLog("original: %s (%s) ", child->originalNodeID.c_str(), child->name.c_str() );
 
       auto material = std::make_shared<MaterialTextureBump>();
       material->texture(_architectureAtlas);

@@ -54,11 +54,12 @@ float LinearizeDepth(float depth) {
 
 float calculateFragmentShadow(vec2 uv, float fragmentDepth) {
   float shadow = 0.0;
+  float bias = 0.0001;
   vec2 texelSize = 1.0 / textureSize(uShadowMap, 0);
   for(int x = -1; x <= 1; x++) {
     for(int y = -1; y <= 1; y++) {
       float closestDepth = texture(uShadowMap, uv + vec2(x, y) * texelSize).r;
-      shadow += fragmentDepth > closestDepth ? 1.0 : 0.0;
+      shadow += fragmentDepth - bias > closestDepth ? 1.0 : 0.0;
     }
   }
 
@@ -68,7 +69,7 @@ float calculateFragmentShadow(vec2 uv, float fragmentDepth) {
 
 vec3 calculateFragmentDiffuse(float distanceToLight, float linearAttenuation, float squareAttenuation, vec3 normal, vec3 lightDir, vec3 eyeDir, vec3 lightColor, float materialSpecular) {
   float lightValue = clamp(dot(-lightDir, normal), 0.0, 1.0);
-  float attenuationValue = 1.0 / (1.0 + linearAttenuation * distanceToLight + squareAttenuation * distanceToLight * distanceToLight);
+  float attenuationValue = 1.0 / (1.0 + linearAttenuation * distanceToLight + squareAttenuation * distanceToLight * distanceToLight * distanceToLight);
   vec3 diffuse = lightColor * lightValue;
 
   // TODO: conditionnaly skip specular

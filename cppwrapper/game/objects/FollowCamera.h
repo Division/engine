@@ -15,8 +15,11 @@ public:
   void start() override;
   void update(float dt) override;
   void setPlayer(std::shared_ptr<PlayerController> player);
-
+  void setFreeCamera(bool isFree);
 private:
+  float _angleX = -M_PI / 8;
+  float _angleY = 0;
+  bool _isFreeCamera = false;
   std::weak_ptr<PlayerController> _player;
   std::weak_ptr<GameObject> _container;
 };

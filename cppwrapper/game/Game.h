@@ -19,12 +19,15 @@ public:
   void update(float dt) override;
 
 private:
+  bool _cameraControl = false;
   std::shared_ptr<Engine> _engine = nullptr;
   std::shared_ptr<Scene> _scene;
   std::shared_ptr<Level> _level;
   std::shared_ptr<PlayerController> _player;
   CameraPtr _camera2D;
   std::shared_ptr<FollowCamera> _camera;
+
+  float _inputInterval = 0;
 
 private:
   void _updateGameLogic(float dt);

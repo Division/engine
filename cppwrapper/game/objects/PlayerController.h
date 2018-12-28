@@ -15,15 +15,13 @@ public:
   static TexturePtr normal;
   static TexturePtr specular;
 
-  enum class State : int {
-
-  };
-
 public:
   void start() override;
   void update(float dt) override;
+  void controlsEnabled(bool enabled) { _controlsEnabled = enabled; }
 
 private:
+  bool _controlsEnabled = true;
   AnimationPlaybackPtr _runPlayback;
   AnimationPlaybackPtr _idlePlayback;
   vec3 _speed = vec3(0);

@@ -31,7 +31,6 @@ float camXAngle = 0;
 float camYAngle = 0;
 ModelBundlePtr bundle;
 
-mat4 projMatrix;
 double drawTime = 0;
 int decalIndex = 0;
 
@@ -67,16 +66,14 @@ void Game::init(std::shared_ptr<Engine> engine) {
 //  bundle = Resources::loadModel("resources/models/skin_cilynder.mdl");
 
 
-  flashLight = CreateGameObject<Projector>();
-//  flashLight->transform()->parent(camera->transform());
-  flashLight->type(ProjectorType::Projector);
-  flashLight->zFar(40);
-  flashLight->zNear(0.05);
-  flashLight->attenuation(0.0, 0.01);
-  flashLight->fov(50);
-  flashLight->castShadows(true);
-//  flashLight->transform()->position(vec3(0,0,-0.1));
-  flashLight->spriteBounds(spritesheet->getSpriteData("flashlight").bounds);
+//  flashLight = CreateGameObject<Projector>();
+//  flashLight->type(ProjectorType::Projector);
+//  flashLight->zFar(40);
+//  flashLight->zNear(0.05);
+//  flashLight->attenuation(0.0, 0.01);
+//  flashLight->fov(50);
+//  flashLight->castShadows(true);
+//  flashLight->spriteBounds(spritesheet->getSpriteData("flashlight").bounds);
 }
 
 void Game::update(float dt) {
@@ -91,21 +88,6 @@ void Game::_updateInput(float dt) {
   auto input = getEngine()->input();
 
   vec3 posDelta = vec3(0, 0, 0);
-//  if (input->keyDown(Key::Left) || input->keyDown(Key::A)) {
-//    posDelta += _camera->transform()->left();
-//  }
-//
-//  if (input->keyDown(Key::Right) || input->keyDown(Key::D)) {
-//    posDelta += _camera->transform()->right();
-//  }
-//
-//  if (input->keyDown(Key::Up) || input->keyDown(Key::W)) {
-//    posDelta += _camera->transform()->forward();
-//  }
-//
-//  if (input->keyDown(Key::Down) || input->keyDown(Key::S)) {
-//    posDelta += _camera->transform()->backward();
-//  }
 
   if (input->keyDown(Key::E)) {
     posDelta += _camera->transform()->up();
@@ -121,6 +103,12 @@ void Game::_updateInput(float dt) {
 
   if (input->keyDown(Key::Space)) {
     flashLight->transform()->setMatrix(_camera->transform()->worldMatrix());
+  }
+
+  if (input->keyDown(Key::Tab)) {
+    _cameraControl = !_cameraControl;
+    _camera->setFreeCamera(_cameraControl);
+    _player->controlsEnabled(!_cameraControl);
   }
 
   if (input->keyDown(Key::X)) {
@@ -139,6 +127,7 @@ void Game::_updateInput(float dt) {
     proj->zFar(3);
     proj->orthographicSize(1);
     proj->isOrthographic(true);
+//    proj->fov(80);
     std::string decalName = spritesheet->spriteNames()[decalIndex++]; decalIndex %= spritesheet->spriteNames().size();
     if (decalName == "flashlight") { decalName = spritesheet->spriteNames()[decalIndex++]; decalIndex %= spritesheet->spriteNames().size(); }
     proj->spriteBounds(spritesheet->getSpriteData(decalName).bounds);
@@ -165,6 +154,7 @@ void Game::_updateGameLogic(float dt) {
   quat rotation(vec3(camXAngle, camYAngle, 0));
 //  _camera->transform()->rotation(rotation);
 
-  auto debugDraw = getEngine()->debugDraw();
-  debugDraw->drawFrustum(projMatrix, glm::vec4(1, 1, 0, 1));
+//  auto debugDraw = getEngine()->debugDraw();
+//  debugDraw->drawFrustum(projMatrix, glm::vec4(1, 1, 0, 1));
+//  debugDraw->drawAABB(aabb, vec4(1, 0, 0, 1));
 }

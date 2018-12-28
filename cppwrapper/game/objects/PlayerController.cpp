@@ -48,11 +48,11 @@ void PlayerController::start() {
   _topLight->transform()->position(vec3(0, 10 / transform()->scale().x, 0));
   _topLight->transform()->rotate(vec3(1, 0, 0), RAD(-90));
   _topLight->transform()->scale(vec3(1) / transform()->scale()); // light scale has to be uniform
-  _topLight->type(LightObjectType::Spot);
-  _topLight->coneAngle(90);
-  _topLight->radius(20);
+  _topLight->type(LightObjectType::Point);
+  _topLight->coneAngle(140);
+  _topLight->radius(30);
   _topLight->castShadows(true);
-  _topLight->attenuation(0.1, 0.01);
+  _topLight->attenuation(0.01, 0.005);
 }
 
 void PlayerController::update(float dt) {
@@ -62,27 +62,48 @@ void PlayerController::update(float dt) {
 
   vec3 acceleration = vec3(0);
 
-  if (input->keyDown(Key::Left) || input->keyDown(Key::A)) {
-    acceleration += DIRECTION_LEFT;
-    shouldSlowDown = false;
+  if (_controlsEnabled) {
+    if (input->keyDown(Key::A)) {
+      acceleration += DIRECTION_LEFT;
+      shouldSlowDown = false;
+    }
+
+    if (input->keyDown(Key::D)) {
+      acceleration += DIRECTION_RIGHT;
+      shouldSlowDown = false;
+    }
+
+    if (input->keyDown(Key::W)) {
+      acceleration += DIRECTION_TOP;
+      shouldSlowDown = false;
+    }
+
+    if (input->keyDown(Key::S)) {
+      acceleration += DIRECTION_BOTTOM;
+      shouldSlowDown = false;
+    }
+
+    if (input->keyDown(Key::Down)) {
+      _topLight->linearAttenuation(_topLight->linearAttenuation() - 1.0f * dt);
+    }
+
+    if (input->keyDown(Key::Up)) {
+      _topLight->linearAttenuation(_topLight->linearAttenuation() + 1.0f * dt);
+    }
+
+    if (input->keyDown(Key::Left)) {
+      _topLight->squareAttenuation(_topLight->squareAttenuation() - 0.1f * dt);
+    }
+
+    if (input->keyDown(Key::Right)) {
+      _topLight->squareAttenuation(_topLight->squareAttenuation() + 0.1f * dt);
+    }
   }
 
-  if (input->keyDown(Key::Right) || input->keyDown(Key::D)) {
-    acceleration += DIRECTION_RIGHT;
-    shouldSlowDown = false;
+  if (dt > 0) {
+    float val = 10.0f * dt;
+    _speed *= fmaxf(1 - val, 0);
   }
-
-  if (input->keyDown(Key::Up) || input->keyDown(Key::W)) {
-    acceleration += DIRECTION_TOP;
-    shouldSlowDown = false;
-  }
-
-  if (input->keyDown(Key::Down) || input->keyDown(Key::S)) {
-    acceleration += DIRECTION_BOTTOM;
-    shouldSlowDown = false;
-  }
-
-  _speed *= 0.87f;
 
   auto distance = glm::distance2(acceleration, vec3(0));
 
