@@ -8,6 +8,7 @@
 #include "EngineMain.h"
 #include "EngTypes.h"
 #include <string>
+#include <unordered_map>
 
 class Level {
 public:
@@ -16,13 +17,14 @@ public:
 
 private:
   GameObjectPtr _loadHierarchy(HierarchyDataPtr hierarchy, const GameObjectPtr parent);
-  TexturePtr _architectureAtlas;
-  TexturePtr _architectureBumpAtlas;
 
   GameObjectPtr _levelRoot;
   ScenePtr _scene;
   ModelBundlePtr _architecture;
+  ModelBundlePtr _props;
   ModelBundlePtr _level;
+
+  std::unordered_map<std::string, TexturePtr> _textures;
 };
 
 

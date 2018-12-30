@@ -49,7 +49,7 @@ void Game::init(std::shared_ptr<Engine> engine) {
 
   _player = loader::loadSkinnedMesh<PlayerController>(characterBundle);
   _player->transform()->position(vec3(0, 1, -15));
-  _player->transform()->scale(vec3(0.02, 0.02, 0.02));
+  _player->transform()->scale(vec3(0.014, 0.014, 0.014));
 
   _camera2D = CreateGameObject<Camera>();
   _camera2D->mode(Camera::Mode::UI);

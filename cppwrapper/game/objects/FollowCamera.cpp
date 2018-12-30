@@ -8,11 +8,9 @@
 
 void FollowCamera::start() {
   auto container = CreateGameObject<GameObject>();
-  transform()->parent(container->transform());
-  transform()->position(vec3(0, 0, 20));
 
   container->transform()->rotate(vec3(0, 1, 0), RAD(225));
-  container->transform()->rotate(vec3(1, 0, 0), RAD(-45));
+  container->transform()->rotate(vec3(1, 0, 0), RAD(-55));
 
   _container = container;
   setFreeCamera(false);
@@ -68,7 +66,7 @@ void FollowCamera::setFreeCamera(bool isFree) {
     _angleY = M_PI;
   } else {
     transform()->parent(_container.lock()->transform());
-    transform()->position(vec3(0, 0, 20));
+    transform()->position(vec3(0, 0, 15));
     transform()->rotation(quat());
   }
 }

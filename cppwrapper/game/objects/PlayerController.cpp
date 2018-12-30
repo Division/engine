@@ -49,7 +49,7 @@ void PlayerController::start() {
   _topLight->transform()->rotate(vec3(1, 0, 0), RAD(-90));
   _topLight->transform()->scale(vec3(1) / transform()->scale()); // light scale has to be uniform
   _topLight->type(LightObjectType::Point);
-  _topLight->coneAngle(140);
+  _topLight->coneAngle(110);
   _topLight->radius(30);
   _topLight->castShadows(true);
   _topLight->attenuation(0.01, 0.005);
