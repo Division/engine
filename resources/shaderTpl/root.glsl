@@ -47,7 +47,10 @@ void main(void) {
 {% if WEBGL %}precision highp float; precision highp int;{% endif %}
 out vec4 fragmentColor;
 
+{{ object_params("") }}
+
 {{ camera("") }}
+
 {% if VERTEX_COLOR %}{{ vertex_color_fragment("") }}{% endif %}
 
 in vec2 vTexCoord0;

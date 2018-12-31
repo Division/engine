@@ -41,7 +41,7 @@ void PlayerController::start() {
   material->specularMap(specular);
   _material = material;
 
-  transform()->position(vec3(0, 0, -20));
+  transform()->position(vec3(20, 0, -20));
 
   _topLight = CreateGameObject<LightObject>();
   _topLight->transform()->parent(transform());

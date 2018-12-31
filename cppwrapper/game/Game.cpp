@@ -22,7 +22,6 @@
 #include "loader/ModelLoader.h"
 #include "objects/PlayerController.h"
 
-SpriteSheetPtr spritesheet;
 
 ProjectorPtr flashLight;
 
@@ -36,8 +35,12 @@ int decalIndex = 0;
 
 void Game::init(std::shared_ptr<Engine> engine) {
   _engine = engine;
+  _spritesheet = loader::loadSpritesheet("resources/common/decals.json");
+  auto projectorTexture = loader::loadTexture("resources/common/" + _spritesheet->spritesheetName(), true);
+  engine->projectorTexture(projectorTexture);
+
   _scene = std::make_shared<Scene>();
-  _level = std::make_shared<Level>(_scene);
+  _level = std::make_shared<Level>(_scene, _spritesheet);
   _level->load("resources/level/level1.mdl");
   auto characterBundle = loader::loadModel("resources/models/dwarf/dwarf.mdl");
   auto characterIdle = loader::loadModel("resources/models/dwarf/dwarf_idle.mdl");
@@ -48,7 +51,7 @@ void Game::init(std::shared_ptr<Engine> engine) {
   characterBundle->appendAnimationBundle(characterAttackLeg, "attack_leg");
 
   _player = loader::loadSkinnedMesh<PlayerController>(characterBundle);
-  _player->transform()->position(vec3(0, 1, -15));
+  _player->transform()->position(vec3(50, 1, -15));
   _player->transform()->scale(vec3(0.014, 0.014, 0.014));
 
   _camera2D = CreateGameObject<Camera>();
@@ -57,9 +60,6 @@ void Game::init(std::shared_ptr<Engine> engine) {
   _camera->setPlayer(_player);
   camXAngle = -M_PI / 8;
 
-  spritesheet = loader::loadSpritesheet("resources/common/decals.json");
-  auto projectorTexture = loader::loadTexture("resources/common/" + spritesheet->spritesheetName(), true);
-  engine->projectorTexture(projectorTexture);
 
   bundle = Resources::loadModel("resources/models/girl.mdl");
 
@@ -128,9 +128,9 @@ void Game::_updateInput(float dt) {
     proj->orthographicSize(1);
     proj->isOrthographic(true);
 //    proj->fov(80);
-    std::string decalName = spritesheet->spriteNames()[decalIndex++]; decalIndex %= spritesheet->spriteNames().size();
-    if (decalName == "flashlight") { decalName = spritesheet->spriteNames()[decalIndex++]; decalIndex %= spritesheet->spriteNames().size(); }
-    proj->spriteBounds(spritesheet->getSpriteData(decalName).bounds);
+    std::string decalName = _spritesheet->spriteNames()[decalIndex++]; decalIndex %= _spritesheet->spriteNames().size();
+    if (decalName == "flashlight") { decalName = _spritesheet->spriteNames()[decalIndex++]; decalIndex %= _spritesheet->spriteNames().size(); }
+    proj->spriteBounds(_spritesheet->getSpriteData(decalName).bounds);
     proj->transform()->position(_camera->transform()->position());
     proj->transform()->rotation(_camera->transform()->rotation());
   }

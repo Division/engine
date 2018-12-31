@@ -21,6 +21,7 @@ public:
 private:
   bool _cameraControl = false;
   std::shared_ptr<Engine> _engine = nullptr;
+  SpriteSheetPtr _spritesheet;
   std::shared_ptr<Scene> _scene;
   std::shared_ptr<Level> _level;
   std::shared_ptr<PlayerController> _player;

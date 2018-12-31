@@ -181,11 +181,21 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
-            <key type="filename">dec1.png</key>
-            <key type="filename">dec1_n.png</key>
-            <key type="filename">dec2.png</key>
-            <key type="filename">dec2_n.png</key>
+            <key type="filename">explosion.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>64,64,128,128</rect>
+                <key>scale9Paddings</key>
+                <rect>64,64,128,128</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">flashlight.jpg</key>
+            <key type="filename">pentagram.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -198,44 +208,54 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">dec3.png</key>
-            <key type="filename">dec3_n.png</key>
+            <key type="filename">highlight1.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>132,105,265,209</rect>
+                <rect>85,85,170,170</rect>
                 <key>scale9Paddings</key>
-                <rect>132,105,265,209</rect>
+                <rect>85,85,170,170</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">decal.png</key>
+            <key type="filename">stain1.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>64,64,128,128</rect>
+                <rect>180,180,360,360</rect>
                 <key>scale9Paddings</key>
-                <rect>64,64,128,128</rect>
+                <rect>180,180,360,360</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">stain3.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>240,150,480,300</rect>
+                <key>scale9Paddings</key>
+                <rect>240,150,480,300</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
         </map>
         <key>fileList</key>
         <array>
-            <filename>dec1_n.png</filename>
-            <filename>dec1.png</filename>
-            <filename>dec2_n.png</filename>
-            <filename>dec2.png</filename>
-            <filename>dec3_n.png</filename>
-            <filename>dec3.png</filename>
-            <filename>decal.png</filename>
             <filename>flashlight.jpg</filename>
+            <filename>explosion.png</filename>
+            <filename>highlight1.png</filename>
+            <filename>pentagram.png</filename>
+            <filename>stain1.png</filename>
+            <filename>stain3.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

@@ -1,56 +1,8 @@
 {"frames": [
 
 {
-	"filename": "dec1",
-	"frame": {"x":1063,"y":1,"w":512,"h":512},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":512,"h":512},
-	"sourceSize": {"w":512,"h":512}
-},
-{
-	"filename": "dec1_n",
-	"frame": {"x":1,"y":422,"w":512,"h":512},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":512,"h":512},
-	"sourceSize": {"w":512,"h":512}
-},
-{
-	"filename": "dec2",
-	"frame": {"x":515,"y":422,"w":512,"h":512},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":512,"h":512},
-	"sourceSize": {"w":512,"h":512}
-},
-{
-	"filename": "dec2_n",
-	"frame": {"x":1029,"y":515,"w":512,"h":512},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":512,"h":512},
-	"sourceSize": {"w":512,"h":512}
-},
-{
-	"filename": "dec3",
-	"frame": {"x":1,"y":1,"w":529,"h":419},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":529,"h":419},
-	"sourceSize": {"w":529,"h":419}
-},
-{
-	"filename": "dec3_n",
-	"frame": {"x":532,"y":1,"w":529,"h":419},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":529,"h":419},
-	"sourceSize": {"w":529,"h":419}
-},
-{
-	"filename": "decal",
-	"frame": {"x":1577,"y":1,"w":256,"h":256},
+	"filename": "explosion",
+	"frame": {"x":1685,"y":343,"w":256,"h":256},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":256,"h":256},
@@ -58,11 +10,43 @@
 },
 {
 	"filename": "flashlight",
-	"frame": {"x":1,"y":1029,"w":512,"h":512},
+	"frame": {"x":1,"y":603,"w":512,"h":512},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":512,"h":512},
 	"sourceSize": {"w":512,"h":512}
+},
+{
+	"filename": "highlight1",
+	"frame": {"x":1685,"y":1,"w":340,"h":340},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":340,"h":340},
+	"sourceSize": {"w":340,"h":340}
+},
+{
+	"filename": "pentagram",
+	"frame": {"x":1,"y":1117,"w":512,"h":512},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":512,"h":512},
+	"sourceSize": {"w":512,"h":512}
+},
+{
+	"filename": "stain1",
+	"frame": {"x":963,"y":1,"w":720,"h":720},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":720,"h":720},
+	"sourceSize": {"w":720,"h":720}
+},
+{
+	"filename": "stain3",
+	"frame": {"x":1,"y":1,"w":960,"h":600},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":960,"h":600},
+	"sourceSize": {"w":960,"h":600}
 }],
 "meta": {
 	"app": "https://www.codeandweb.com/texturepacker",
@@ -71,6 +55,6 @@
 	"format": "RGBA8888",
 	"size": {"w":2048,"h":2048},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:1328057d623f0f335401b30fa4d8189d:582260d8f014ccefc2e8ea5bc0285650:0d0818806965f5213550c37931ccf0cc$"
+	"smartupdate": "$TexturePacker:SmartUpdate:34ba66445f52963e15dfe433504ad80b:c2a7418714c32033655b8752abf4e020:0d0818806965f5213550c37931ccf0cc$"
 }
 }

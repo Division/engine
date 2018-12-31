@@ -21,6 +21,7 @@ struct Light {
   mat4 projectionMatrix;
   vec2 shadowmapScale;
   vec2 shadowmapOffset;
+  uint mask;
 };
 
 layout (std140) uniform LightBlock {
@@ -37,6 +38,7 @@ struct Projector {
   vec2 shadowmapOffset;
   mat4 projectionMatrix;
   float linearAttenuation;
+  uint mask;
 };
 
 layout (std140) uniform ProjectorBlock {
