@@ -16,7 +16,7 @@
     float innerLightToSurfaceAngle = lightToSurfaceAngle * 1.03;
     float epsilon = innerLightToSurfaceAngle - lightToSurfaceAngle;
 
-    if ((lights[lightIndex].mask & transform.layer) > 0u && lightToSurfaceAngle > coneAngle) {
+    if ((lights[lightIndex].mask & objectParams.layer) > 0u && lightToSurfaceAngle > coneAngle) {
       float normalizedDistanceToLight = distanceToLight / lights[lightIndex].radius;
       vec3 lightValue = calculateFragmentDiffuse(normalizedDistanceToLight, lights[lightIndex].attenuation, normal_worldspace, lightDir, eyeDir_worldspace, lights[lightIndex].color, materialSpecular);
       float intensity = clamp((lightToSurfaceAngle - coneAngle) / epsilon, 0.0, 1.0);

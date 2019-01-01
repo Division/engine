@@ -29,7 +29,7 @@ void main(void) {
 {% if SKINNING %}
   {{ skinning_vertex_main("") }}
 {% else %}
-  modelMatrix = transform.model;
+  modelMatrix = objectParams.model;
 {% endif %}
 
   vPosition_worldspace = modelMatrix * vec4(aPosition, 1.0);

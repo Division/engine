@@ -4,13 +4,16 @@ in vec3 aPosition;
 in vec2 aTexCoord0;
 out vec2 vTexCoord0;
 
-struct Transform {
+struct ObjectParams {
   mat4 model;
   mat4 normalMatrix;
+  vec2 uvScale;
+  vec2 uvOffset;
+  uint layer;
 };
 
-layout (std140) uniform TransformBlock {
-  Transform transform;
+layout (std140) uniform ObjectParamsBlock {
+  ObjectParams objectParams;
 };
 
 uniform mat4 uViewMatrix;
@@ -29,7 +32,7 @@ layout (std140) uniform CameraBlock {
 
 void main()
 {
-  vec4 position_cameraspace = camera.viewMatrix * transform.model * vec4(aPosition, 1.0);
+  vec4 position_cameraspace = camera.viewMatrix * objectParams.model * vec4(aPosition, 1.0);
 
   gl_Position = camera.projectionMatrix * position_cameraspace;
   vTexCoord0 = aTexCoord0;

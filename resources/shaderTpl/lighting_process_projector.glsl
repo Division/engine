@@ -9,7 +9,7 @@
     vec4 projectedTextureUV = projectors[projectorIndex].projectionMatrix * vPosition_worldspace;
     projectedTextureUV /= projectedTextureUV.w;
     projectedTextureUV = (projectedTextureUV + 1.0) / 2.0;
-    if ((projectors[projectorIndex].mask & transform.layer) > 0u
+    if ((projectors[projectorIndex].mask & objectParams.layer) > 0u
         && projectedTextureUV.x >= 0.0 && projectedTextureUV.x < 1.0
         && projectedTextureUV.y >= 0.0 && projectedTextureUV.y < 1.0
         && projectedTextureUV.z >= 0.0 && projectedTextureUV.z < 1.0) {

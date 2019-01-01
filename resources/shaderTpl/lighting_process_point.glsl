@@ -5,7 +5,7 @@
 {% else %}
     uint lightIndex = texelFetch(uLightIndices, ivec2(currentOffset % 4096u, int(floor(float(currentOffset) / 4096.0))), 0).r;
 {% endif %}
-    if ((lights[lightIndex].mask & transform.layer) > 0u) {
+    if ((lights[lightIndex].mask & objectParams.layer) > 0u) {
       vec3 lightPosition = lights[lightIndex].position;
       vec3 lightDir = vPosition_worldspace.xyz - lightPosition;
       float distanceToLight = length(lightDir);
