@@ -62,8 +62,9 @@ GameObjectPtr Level::_createLight(HierarchyDataPtr &child) {
     light->coneAngle(160);
   }
 
-  light->radius(30);
-  light->attenuation(0.01, 0.01);
+  light->radius(10);
+  light->attenuation(1.2);
+//  light->enableDebug();
 
   return light;
 }

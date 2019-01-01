@@ -17,14 +17,13 @@
       vec4 projectedTexture = texture(uProjectorTexture, spritesheetUV) * projectors[projectorIndex].color;
 
       vec3 lightPosition = projectors[projectorIndex].position;
-      float linearAttenuation = projectors[projectorIndex].linearAttenuation;
-      float squareAttenuation = projectors[projectorIndex].squareAttenuation;
 
       vec3 lightDir = vPosition_worldspace.xyz - lightPosition;
       float distanceToLight = length(lightDir);
       lightDir /= distanceToLight; // normalize
       vec3 lightColor = projectedTexture.rgb * projectedTexture.a;
-      vec3 lightValue = calculateFragmentDiffuse(distanceToLight, linearAttenuation, squareAttenuation, normal_worldspace, lightDir, eyeDir_worldspace, lightColor, materialSpecular);
+      float normalizedDistanceToLight = distanceToLight / projectors[projectorIndex].radius;
+      vec3 lightValue = calculateFragmentDiffuse(normalizedDistanceToLight, projectors[projectorIndex].attenuation, normal_worldspace, lightDir, eyeDir_worldspace, lightColor, materialSpecular);
 
       if (projectors[projectorIndex].shadowmapScale.x > 0) {
         vec2 shadowmapUV = projectedTextureUV.xy * projectors[projectorIndex].shadowmapScale + projectors[projectorIndex].shadowmapOffset;

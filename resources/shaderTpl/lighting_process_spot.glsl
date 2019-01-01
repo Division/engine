@@ -8,8 +8,6 @@
     vec3 lightPosition = lights[lightIndex].position;
     vec3 coneDirection = lights[lightIndex].direction;
     float coneAngle = lights[lightIndex].coneAngle;
-    float linearAttenuation = lights[lightIndex].linearAttenuation;
-    float squareAttenuation = lights[lightIndex].squareAttenuation;
 
     vec3 lightDir = vPosition_worldspace.xyz - lightPosition;
     float distanceToLight = length(lightDir);
@@ -19,7 +17,8 @@
     float epsilon = innerLightToSurfaceAngle - lightToSurfaceAngle;
 
     if ((lights[lightIndex].mask & transform.layer) > 0u && lightToSurfaceAngle > coneAngle) {
-      vec3 lightValue = calculateFragmentDiffuse(distanceToLight, linearAttenuation, squareAttenuation, normal_worldspace, lightDir, eyeDir_worldspace, lights[lightIndex].color, materialSpecular);
+      float normalizedDistanceToLight = distanceToLight / lights[lightIndex].radius;
+      vec3 lightValue = calculateFragmentDiffuse(normalizedDistanceToLight, lights[lightIndex].attenuation, normal_worldspace, lightDir, eyeDir_worldspace, lights[lightIndex].color, materialSpecular);
       float intensity = clamp((lightToSurfaceAngle - coneAngle) / epsilon, 0.0, 1.0);
 
       if (lights[lightIndex].shadowmapScale.x > 0) {

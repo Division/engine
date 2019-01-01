@@ -13,9 +13,9 @@ uniform highp sampler2D uShadowMap;
 
 struct Light {
   vec3 position;
-  float squareAttenuation;
+  float attenuation;
   vec3 color;
-  float linearAttenuation;
+  float radius;
   vec3 direction;
   float coneAngle;
   mat4 projectionMatrix;
@@ -30,14 +30,14 @@ layout (std140) uniform LightBlock {
 
 struct Projector {
   vec3 position;
-  float squareAttenuation;
+  float attenuation;
   vec4 color;
   vec2 scale;
   vec2 offset;
   vec2 shadowmapScale;
   vec2 shadowmapOffset;
   mat4 projectionMatrix;
-  float linearAttenuation;
+  float radius;
   uint mask;
 };
 
@@ -69,9 +69,9 @@ float calculateFragmentShadow(vec2 uv, float fragmentDepth) {
   return shadow;
 }
 
-vec3 calculateFragmentDiffuse(float distanceToLight, float linearAttenuation, float squareAttenuation, vec3 normal, vec3 lightDir, vec3 eyeDir, vec3 lightColor, float materialSpecular) {
+vec3 calculateFragmentDiffuse(float normalizedDistanceToLight, float attenuation, vec3 normal, vec3 lightDir, vec3 eyeDir, vec3 lightColor, float materialSpecular) {
   float lightValue = clamp(dot(-lightDir, normal), 0.0, 1.0);
-  float attenuationValue = 1.0 / (1.0 + linearAttenuation * distanceToLight + squareAttenuation * distanceToLight * distanceToLight * distanceToLight);
+  float attenuationValue = pow(max(1.0 - normalizedDistanceToLight, 0.0), attenuation);
   vec3 diffuse = lightColor * lightValue;
 
   // TODO: conditionnaly skip specular

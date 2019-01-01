@@ -10,9 +10,8 @@
       vec3 lightDir = vPosition_worldspace.xyz - lightPosition;
       float distanceToLight = length(lightDir);
       lightDir /= distanceToLight; // normalize
-      float linearAttenuation = lights[lightIndex].linearAttenuation;
-      float squareAttenuation = lights[lightIndex].squareAttenuation;
-      vec3 lightValue = calculateFragmentDiffuse(distanceToLight, linearAttenuation, squareAttenuation, normal_worldspace, lightDir, eyeDir_worldspace, lights[lightIndex].color, materialSpecular);
+      float normalizedDistanceToLight = distanceToLight / lights[lightIndex].radius;
+      vec3 lightValue = calculateFragmentDiffuse(normalizedDistanceToLight, lights[lightIndex].attenuation, normal_worldspace, lightDir, eyeDir_worldspace, lights[lightIndex].color, materialSpecular);
 
       vec3 coneDirection = lights[lightIndex].direction;
       float coneAngle = lights[lightIndex].coneAngle;

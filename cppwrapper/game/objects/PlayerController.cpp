@@ -50,9 +50,9 @@ void PlayerController::start() {
   _topLight->transform()->scale(vec3(1) / transform()->scale()); // light scale has to be uniform
   _topLight->type(LightObjectType::Point);
   _topLight->coneAngle(110);
-  _topLight->radius(30);
+  _topLight->radius(21);
   _topLight->castShadows(true);
-  _topLight->attenuation(0.01, 0.005);
+  _topLight->attenuation(3.5);
 }
 
 void PlayerController::update(float dt) {
@@ -81,22 +81,6 @@ void PlayerController::update(float dt) {
     if (input->keyDown(Key::S)) {
       acceleration += DIRECTION_BOTTOM;
       shouldSlowDown = false;
-    }
-
-    if (input->keyDown(Key::Down)) {
-      _topLight->linearAttenuation(_topLight->linearAttenuation() - 1.0f * dt);
-    }
-
-    if (input->keyDown(Key::Up)) {
-      _topLight->linearAttenuation(_topLight->linearAttenuation() + 1.0f * dt);
-    }
-
-    if (input->keyDown(Key::Left)) {
-      _topLight->squareAttenuation(_topLight->squareAttenuation() - 0.1f * dt);
-    }
-
-    if (input->keyDown(Key::Right)) {
-      _topLight->squareAttenuation(_topLight->squareAttenuation() + 0.1f * dt);
     }
   }
 
