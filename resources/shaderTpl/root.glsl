@@ -21,7 +21,7 @@ out vec4 vPosition_worldspace;
 void main(void) {
   gl_PointSize = 5.0;
 
-  vTexCoord0 = aTexCoord0;
+  vTexCoord0 = aTexCoord0 * objectParams.uvScale + objectParams.uvOffset;
 
 {% if VERTEX_COLOR %}{{ vertex_color_vertex_main("") }}{% endif %}
 

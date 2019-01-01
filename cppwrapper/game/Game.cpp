@@ -23,9 +23,6 @@
 #include "objects/PlayerController.h"
 
 
-ProjectorPtr flashLight;
-
-float ang = 0;
 float camXAngle = 0;
 float camYAngle = 0;
 ModelBundlePtr bundle;
@@ -36,11 +33,11 @@ int decalIndex = 0;
 void Game::init(std::shared_ptr<Engine> engine) {
   _engine = engine;
   _spritesheet = loader::loadSpritesheet("resources/common/decals.json");
-  auto projectorTexture = loader::loadTexture("resources/common/" + _spritesheet->spritesheetName(), true);
-  engine->projectorTexture(projectorTexture);
+  auto decals = loader::loadTexture("resources/common/" + _spritesheet->spritesheetName());
+  engine->projectorTexture(decals);
 
   _scene = std::make_shared<Scene>();
-  _level = std::make_shared<Level>(_scene, _spritesheet);
+  _level = std::make_shared<Level>(_scene, _spritesheet, decals);
   _level->load("resources/level/level1.mdl");
   auto characterBundle = loader::loadModel("resources/models/dwarf/dwarf.mdl");
   auto characterIdle = loader::loadModel("resources/models/dwarf/dwarf_idle.mdl");
@@ -58,22 +55,6 @@ void Game::init(std::shared_ptr<Engine> engine) {
   _camera2D->mode(Camera::Mode::UI);
   _camera = CreateGameObject<FollowCamera>();
   _camera->setPlayer(_player);
-  camXAngle = -M_PI / 8;
-
-
-  bundle = Resources::loadModel("resources/models/girl.mdl");
-
-//  bundle = Resources::loadModel("resources/models/skin_cilynder.mdl");
-
-
-//  flashLight = CreateGameObject<Projector>();
-//  flashLight->type(ProjectorType::Projector);
-//  flashLight->zFar(40);
-//  flashLight->zNear(0.05);
-//  flashLight->attenuation(0.0, 0.01);
-//  flashLight->fov(50);
-//  flashLight->castShadows(true);
-//  flashLight->spriteBounds(spritesheet->getSpriteData("flashlight").bounds);
 }
 
 void Game::update(float dt) {
@@ -101,22 +82,10 @@ void Game::_updateInput(float dt) {
     engine::Performance::printAverages();
   }
 
-  if (input->keyDown(Key::Space)) {
-    flashLight->transform()->setMatrix(_camera->transform()->worldMatrix());
-  }
-
   if (input->keyDown(Key::Tab)) {
     _cameraControl = !_cameraControl;
     _camera->setFreeCamera(_cameraControl);
     _player->controlsEnabled(!_cameraControl);
-  }
-
-  if (input->keyDown(Key::X)) {
-    _player->animation()->play("idle", true);
-  }
-
-  if (input->keyDown(Key::Z)) {
-    _player->animation()->play("run", true);
   }
 
   if (input->keyDown(Key::C) && getEngine()->time() - drawTime > 0.3) {
@@ -127,7 +96,6 @@ void Game::_updateInput(float dt) {
     proj->zFar(3);
     proj->orthographicSize(1);
     proj->isOrthographic(true);
-//    proj->fov(80);
     std::string decalName = _spritesheet->spriteNames()[decalIndex++]; decalIndex %= _spritesheet->spriteNames().size();
     if (decalName == "flashlight") { decalName = _spritesheet->spriteNames()[decalIndex++]; decalIndex %= _spritesheet->spriteNames().size(); }
     proj->spriteBounds(_spritesheet->getSpriteData(decalName).bounds);
@@ -144,17 +112,8 @@ void Game::_updateInput(float dt) {
 }
 
 void Game::_updateGameLogic(float dt) {
-  ang += dt * PI;
-
   auto depthTexture = getEngine()->sceneRenderer()->shadowMapDepthTexture();
   if (depthTexture) {
     _engine->debugDraw()->drawDepthImage(depthTexture, vec4(-600, -400, 300, 300), vec2(0.05f, 40.0f));
   }
-
-  quat rotation(vec3(camXAngle, camYAngle, 0));
-//  _camera->transform()->rotation(rotation);
-
-//  auto debugDraw = getEngine()->debugDraw();
-//  debugDraw->drawFrustum(projMatrix, glm::vec4(1, 1, 0, 1));
-//  debugDraw->drawAABB(aabb, vec4(1, 0, 0, 1));
 }

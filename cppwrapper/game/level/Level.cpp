@@ -33,7 +33,8 @@ const std::string ARCHITECTURE_FILE = "resources/level/architecture.mdl";
 const std::string PROPS_FILE = "resources/level/props.mdl";
 const std::string NO_SHADOW = "no_shadow";
 
-Level::Level(ScenePtr &scene, SpriteSheetPtr &decals) : _scene(scene), _decals(decals) {
+Level::Level(ScenePtr &scene, SpriteSheetPtr &decalsSpritesheet, TexturePtr &decalsTexture)
+    : _scene(scene), _decalsSpritesheet(decalsSpritesheet), _decalsTexture(decalsTexture) {
   _levelRoot = CreateGameObject<GameObject>();
   _architecture = loader::loadModel(ARCHITECTURE_FILE);
   _props = loader::loadModel(PROPS_FILE);
@@ -45,6 +46,12 @@ Level::Level(ScenePtr &scene, SpriteSheetPtr &decals) : _scene(scene), _decals(d
   _textures[ATLAS_PROPS1_NORMALMAP] = loader::loadTexture(ATLAS_PROPS1_NORMALMAP, false);
   _textures[ATLAS_PROPS2] = loader::loadTexture(ATLAS_PROPS2);
   _textures[ATLAS_PROPS2_NORMALMAP] = loader::loadTexture(ATLAS_PROPS2_NORMALMAP, false);
+}
+
+std::string Level::_getDecalName(const std::string &objectName) {
+  std::string decalName = objectName;
+  decalName.erase(0, decalName.find('_') + 1);
+  return decalName;
 }
 
 GameObjectPtr Level::_createLight(HierarchyDataPtr &child) {
@@ -85,39 +92,38 @@ GameObjectPtr Level::_createProjector(HierarchyDataPtr &child) {
 //  projector->setDebugEnabled(true);
   projector->isOrthographic(true);
   projector->castShadows(true);
-  std::string decalName = child->name;
-  decalName.erase(0, decalName.find('_') + 1);
-  auto bounds = _decals->getSpriteData(decalName).bounds;
+  auto bounds = _decalsSpritesheet->getSpriteData(_getDecalName(child->name)).bounds;
   projector->spriteBounds(bounds);
 
   return nullptr;
 }
 
-MeshObjectPtr Level::_createMeshObjectByName(const std::string &name) {
-  if (name.find("Plane_mesh") != std::string::npos) {
-    auto result = CreateGameObject<StainGlass>();
-    result->setSpriteSheet(_decals);
-    result->layer();
-    return result;
-  } else {
-    return CreateGameObject<MeshObject>();
-  }
-}
+MeshObjectPtr Level::_createMeshObject(ModelBundlePtr &bundle, HierarchyDataPtr &referenceNode, GameObjectPtr &parent) {
+  MeshObjectPtr meshObject;
+  auto &name = parent->name();
 
-MeshObjectPtr Level::_createMeshObject(ModelBundlePtr &bundle, HierarchyDataPtr &referenceNode) {
-  MeshObjectPtr meshObject = _createMeshObjectByName(referenceNode->name);
+  if (name.find("Stain") != std::string::npos) {
+    auto mesh = CreateGameObject<StainGlass>();
+    mesh->setup(_decalsSpritesheet, _decalsTexture, _getDecalName(name));
+    mesh->layer(LAYER_WINDOW);
+    meshObject = mesh;
+  } else {
+    auto mesh = CreateGameObject<MeshObject>();
+
+    auto material = std::make_shared<MaterialTextureBump>();
+    material->texture(_textures.at(*referenceNode->material->diffuse));
+    auto normalMapName = *referenceNode->material->diffuse;
+    normalMapName.replace(normalMapName.length() - 4, 0, "_Normal");
+    material->normalMap(_textures.at(normalMapName));
+    mesh->material(material);
+    meshObject = mesh;
+  }
+
   meshObject->mesh(bundle->getMesh(referenceNode->geometry));
   if (!meshObject->mesh()->hasTBN()) {
     meshObject->mesh()->calculateTBN();
     meshObject->mesh()->createBuffer();
   }
-
-  auto material = std::make_shared<MaterialTextureBump>();
-  material->texture(_textures.at(*referenceNode->material->diffuse));
-  auto normalMapName = *referenceNode->material->diffuse;
-  normalMapName.replace(normalMapName.length() - 4, 0, "_Normal");
-  material->normalMap(_textures.at(normalMapName));
-  meshObject->material(material);
 
   return meshObject;
 }
@@ -172,7 +178,7 @@ GameObjectPtr Level::_loadHierarchy(HierarchyDataPtr hierarchy, const GameObject
     if (child->isLight) {
       object = _createLight(child);
     } else if (referenceNode && referenceNode->hasGeometry) {
-      object = _createMeshObject(bundle, referenceNode);
+      object = _createMeshObject(bundle, referenceNode, parent);
     } else if (child->name.find("Projector") != std::string::npos) {
       object = _createProjector(child);
     } else {
@@ -182,7 +188,7 @@ GameObjectPtr Level::_loadHierarchy(HierarchyDataPtr hierarchy, const GameObject
     if (object) {
       object->transform()->parent(parent->transform());
       object->transform()->setMatrix(child->transform);
-      object->name(hierarchy->name);
+      object->name(child->name);
 
       _loadHierarchy(child, object);
     }

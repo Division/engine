@@ -13,12 +13,8 @@ class StainGlass : public MeshObject {
 public:
 
   void start() override;
-  void update(float dt) override;
-  void setSpriteSheet(SpriteSheetPtr &spritesheet) { _spritesheet = spritesheet; }
+  void setup(SpriteSheetPtr &spritesheet, TexturePtr &decals, const std::string &spriteName);
 
-private:
-  std::weak_ptr<SpriteSheet> _spritesheet;
-  ProjectorPtr _projector;
 };
 
 

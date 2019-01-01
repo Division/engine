@@ -15,8 +15,8 @@
 		</comments>
       <source_data>file:///Users/nsidorenko/Documents/maya/projects/demo_assets/level.mb</source_data>
     </contributor>
-    <created>2019-01-01T11:07:41</created>
-    <modified>2019-01-01T11:07:41</modified>
+    <created>2019-01-01T15:06:42</created>
+    <modified>2019-01-01T15:06:42</modified>
     <unit name="centimeter" meter="0.01"/>
     <up_axis>Y_UP</up_axis>
   </asset>
@@ -7350,9 +7350,9 @@
             </technique>
           </extra>
         </node>
-        <node id="_room2_Plane" name="Plane" type="NODE">
-          <matrix sid="transform">0 -1 0 34 5.648102 0 0 4.700136 0 0 2.964538 -24 0 0 0 1</matrix>
-          <node id="_room2_Plane_Plane_mesh" name="Plane_mesh" type="NODE">
+        <node id="_room2_Stain1_stain3" name="Stain1_stain3" type="NODE">
+          <matrix sid="transform">0 -1 0 34 0 0 -5.648 4.700136 2.965 0 0 -24 0 0 0 1</matrix>
+          <node id="_room2_Stain1_stain3_Plane_mesh" name="Plane_mesh" type="NODE">
             <matrix sid="transform">1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</matrix>
             <instance_geometry url="#Plane_meshShape">
               <bind_material>
@@ -7371,13 +7371,13 @@
           </node>
           <extra>
             <technique profile="OpenCOLLADAMaya">
-              <originalMayaNodeId sid="originalMayaNodeId" type="string">Plane</originalMayaNodeId>
+              <originalMayaNodeId sid="originalMayaNodeId" type="string">Stain1_stain3</originalMayaNodeId>
             </technique>
           </extra>
         </node>
-        <node id="_room2_Plane1" name="Plane1" type="NODE">
-          <matrix sid="transform">0 -1 0 34 5.648102 0 0 4.700136 0 0 2.964538 -17.99489 0 0 0 1</matrix>
-          <node id="_room2_Plane1_Plane_mesh" name="Plane_mesh" type="NODE">
+        <node id="_room2_Stain2_stain1" name="Stain2_stain1" type="NODE">
+          <matrix sid="transform">0 -1 0 34 0 0 -5.648 4.700136 2.965 0 0 -17.99933 0 0 0 1</matrix>
+          <node id="_room2_Stain2_stain1_Plane_mesh" name="Plane_mesh" type="NODE">
             <matrix sid="transform">1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</matrix>
             <instance_geometry url="#Plane_meshShape_1">
               <bind_material>
@@ -7396,7 +7396,7 @@
           </node>
           <extra>
             <technique profile="OpenCOLLADAMaya">
-              <originalMayaNodeId sid="originalMayaNodeId" type="string">Plane1</originalMayaNodeId>
+              <originalMayaNodeId sid="originalMayaNodeId" type="string">Stain2_stain1</originalMayaNodeId>
             </technique>
           </extra>
         </node>
@@ -9071,7 +9071,24 @@
         </extra>
       </node>
       <node id="_Projector_stain3" name="Projector_stain3" type="NODE">
-        <matrix sid="transform">0 -2.239255 17.9379 35.99895 0 4.541342 8.844862 5.692059 -2.965 0 0 -24.01511 0 0 0 1</matrix>
+        <matrix sid="transform">0 2.239077 17.9379 35.99895 0 -4.540981 8.844862 5.692059 2.965 0 0 -24.01511 0 0 0 1</matrix>
+        <node id="_Projector_stain3_pCube2" name="pCube2" type="NODE">
+          <matrix sid="transform">1 0 0 0 0 1 0 0 0 0 1 -0.5 0 0 0 1</matrix>
+          <instance_geometry url="#pCubeShape2">
+            <bind_material>
+              <technique_common>
+                <instance_material symbol="initialShadingGroup" target="#lambert1">
+                  <bind_vertex_input semantic="TEX0" input_semantic="TEXCOORD" input_set="0"/>
+                </instance_material>
+              </technique_common>
+            </bind_material>
+          </instance_geometry>
+          <extra>
+            <technique profile="OpenCOLLADAMaya">
+              <originalMayaNodeId sid="originalMayaNodeId" type="string">pCube2</originalMayaNodeId>
+            </technique>
+          </extra>
+        </node>
         <extra>
           <technique profile="OpenCOLLADAMaya">
             <originalMayaNodeId sid="originalMayaNodeId" type="string">Projector_stain3</originalMayaNodeId>
@@ -9079,7 +9096,24 @@
         </extra>
       </node>
       <node id="_Projector_stain1" name="Projector_stain1" type="NODE">
-        <matrix sid="transform">0 -2.239255 17.9379 35.99895 0 4.541342 8.844862 5.692059 -2.965 0 0 -17.99484 0 0 0 1</matrix>
+        <matrix sid="transform">0 2.239077 17.9379 35.99895 0 -4.540981 8.844862 5.692059 2.965 0 0 -17.99484 0 0 0 1</matrix>
+        <node id="_Projector_stain1_pCube2" name="pCube2" type="NODE">
+          <matrix sid="transform">1 0 0 0 0 1 0 0 0 0 1 -0.5 0 0 0 1</matrix>
+          <instance_geometry url="#pCubeShape2_1">
+            <bind_material>
+              <technique_common>
+                <instance_material symbol="initialShadingGroup" target="#lambert1">
+                  <bind_vertex_input semantic="TEX0" input_semantic="TEXCOORD" input_set="0"/>
+                </instance_material>
+              </technique_common>
+            </bind_material>
+          </instance_geometry>
+          <extra>
+            <technique profile="OpenCOLLADAMaya">
+              <originalMayaNodeId sid="originalMayaNodeId" type="string">pCube2</originalMayaNodeId>
+            </technique>
+          </extra>
+        </node>
         <extra>
           <technique profile="OpenCOLLADAMaya">
             <originalMayaNodeId sid="originalMayaNodeId" type="string">Projector_stain1</originalMayaNodeId>

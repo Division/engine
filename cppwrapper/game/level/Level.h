@@ -12,7 +12,7 @@
 
 class Level {
 public:
-  Level(ScenePtr &scene, SpriteSheetPtr &decals);
+  Level(ScenePtr &scene, SpriteSheetPtr &decalsSpritesheet, TexturePtr &decalsTexture);
   void load(std::string fileName);
 
 private:
@@ -20,18 +20,19 @@ private:
 
   GameObjectPtr _levelRoot;
   ScenePtr _scene;
-  SpriteSheetPtr _decals;
+  SpriteSheetPtr _decalsSpritesheet;
   ModelBundlePtr _architecture;
   ModelBundlePtr _props;
   ModelBundlePtr _level;
+  TexturePtr _decalsTexture;
 
   std::unordered_map<std::string, TexturePtr> _textures;
 
 private:
+  std::string _getDecalName(const std::string &objectName);
   GameObjectPtr _createLight(HierarchyDataPtr &child);
   GameObjectPtr _createProjector(HierarchyDataPtr &child);
-  MeshObjectPtr _createMeshObjectByName(const std::string &name);
-  MeshObjectPtr _createMeshObject(ModelBundlePtr &bundle, HierarchyDataPtr &referenceNode);
+  MeshObjectPtr _createMeshObject(ModelBundlePtr &bundle, HierarchyDataPtr &referenceNode, GameObjectPtr &parent);
   void _assignLayer(GameObjectPtr &parent);
 };
 
