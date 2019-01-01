@@ -53,6 +53,9 @@ void PlayerController::start() {
   _topLight->radius(21);
   _topLight->castShadows(true);
   _topLight->attenuation(3.5);
+
+  _cullingData.type = CullingData::Type::Sphere;
+  _cullingData.sphere.radius = 4;
 }
 
 void PlayerController::update(float dt) {
@@ -114,5 +117,7 @@ void PlayerController::update(float dt) {
     _runPlayback->weight(runWeight);
     _idlePlayback->weight(1 - runWeight);
   }
+
+  _cullingData.sphere.position = transform()->worldPosition(true);
 
 }
