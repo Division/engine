@@ -25,11 +25,13 @@ private:
   ModelBundlePtr _props;
   ModelBundlePtr _level;
   TexturePtr _decalsTexture;
+  TexturePtr _flareTexture;
 
   std::unordered_map<std::string, TexturePtr> _textures;
 
 private:
   std::string _getDecalName(const std::string &objectName);
+  void _setSphereBounds(GameObjectPtr &object);
   GameObjectPtr _createLight(HierarchyDataPtr &child);
   GameObjectPtr _createProjector(HierarchyDataPtr &child);
   MeshObjectPtr _createMeshObject(ModelBundlePtr &bundle, HierarchyDataPtr &referenceNode, GameObjectPtr &parent);

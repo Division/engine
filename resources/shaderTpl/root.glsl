@@ -15,12 +15,11 @@
 
 in vec3 aPosition;
 in vec2 aTexCoord0;
+{% if BILLBOARD %}in vec2 aCorner;{% endif %}
 out vec2 vTexCoord0;
 out vec4 vPosition_worldspace;
 
 void main(void) {
-  gl_PointSize = 5.0;
-
   vTexCoord0 = aTexCoord0 * objectParams.uvScale + objectParams.uvOffset;
 
 {% if VERTEX_COLOR %}{{ vertex_color_vertex_main("") }}{% endif %}
@@ -33,6 +32,12 @@ void main(void) {
 {% endif %}
 
   vPosition_worldspace = modelMatrix * vec4(aPosition, 1.0);
+{% if BILLBOARD %}
+  vPosition_worldspace += aCorner.x * vec4(camera.viewMatrix[0][0], camera.viewMatrix[1][0], camera.viewMatrix[2][0], 0.0) +
+                          aCorner.y * vec4(camera.viewMatrix[0][1], camera.viewMatrix[1][1], camera.viewMatrix[2][1], 0.0);
+
+{% endif %}
+
   vec4 position_cameraspace = camera.viewMatrix * vPosition_worldspace;
 
 {% if LIGHTING %}{{ lighting_vertex_main("") }}{% endif %}

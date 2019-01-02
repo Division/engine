@@ -56,7 +56,7 @@ float LinearizeDepth(float depth) {
 
 float calculateFragmentShadow(vec2 uv, float fragmentDepth) {
   float shadow = 0.0;
-  float bias = 0.0001;
+  float bias = 0.001;
   vec2 texelSize = 1.0 / textureSize(uShadowMap, 0);
   for(int x = -1; x <= 1; x++) {
     for(int y = -1; y <= 1; y++) {

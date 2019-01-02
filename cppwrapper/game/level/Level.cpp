@@ -18,6 +18,7 @@ const unsigned int LAYER_DEFAULT = 1 << 0;
 const unsigned int LAYER_WINDOW = 1 << 5;
 const unsigned int LAYER_ROOM1 = 1 << 10;
 const unsigned int LAYER_ROOM2 = 1 << 11;
+const unsigned int LAYER_ROOM3 = 1 << 12;
 const unsigned int LAYER_ALL_ROOMS = LAYER_ROOM1 | LAYER_ROOM2;
 const unsigned int LAYER_FLOOR = 1 << 9;
 
@@ -46,6 +47,7 @@ Level::Level(ScenePtr &scene, SpriteSheetPtr &decalsSpritesheet, TexturePtr &dec
   _textures[ATLAS_PROPS1_NORMALMAP] = loader::loadTexture(ATLAS_PROPS1_NORMALMAP, false);
   _textures[ATLAS_PROPS2] = loader::loadTexture(ATLAS_PROPS2);
   _textures[ATLAS_PROPS2_NORMALMAP] = loader::loadTexture(ATLAS_PROPS2_NORMALMAP, false);
+  _flareTexture = loader::loadTexture("resources/common/flare_1.png");
 }
 
 std::string Level::_getDecalName(const std::string &objectName) {
@@ -63,6 +65,8 @@ GameObjectPtr Level::_createLight(HierarchyDataPtr &child) {
     light->castShadows(true);
   }
 
+  light->color(lightData->color);
+
   if (light->type() == LightObjectType::Spot) {
     light->coneAngle(lightData->coneAngle);
   } else {
@@ -71,6 +75,7 @@ GameObjectPtr Level::_createLight(HierarchyDataPtr &child) {
 
   light->radius(10);
   light->attenuation(1.2);
+  light->setFlare(_flareTexture, 1);
 //  light->enableDebug();
 
   return light;
@@ -89,6 +94,7 @@ GameObjectPtr Level::_createProjector(HierarchyDataPtr &child) {
   projector->zNear(0.005);
   projector->attenuation(0.0, 0.00);
   projector->orthographicSize(scale.y);
+  projector->color(vec4(2, 2, 2, 1));
 //  projector->setDebugEnabled(true);
   projector->isOrthographic(true);
   projector->castShadows(true);
@@ -153,7 +159,26 @@ void Level::_assignLayer(GameObjectPtr &parent) {
   } else if (parent->name() == "room2") {
     currentLayer = LAYER_ROOM2;
     parent->transform()->forEachChild(true, callback);
+  } else if (parent->name() == "room3") {
+    currentLayer = LAYER_ROOM3;
+    parent->transform()->forEachChild(true, callback);
   }
+
+}
+
+void Level::_setSphereBounds(GameObjectPtr &object) {
+  CullingData data;
+  data.type = CullingData::Type::Sphere;
+
+  auto mesh = std::dynamic_pointer_cast<MeshObject>(object)->mesh();
+
+  vec3 scale = object->transform()->parent()->scale();
+  vec3 size = (mesh->aabb().max - mesh->aabb().min) * scale;
+  vec3 halfSize = size / 2.0f;
+  data.sphere.radius = glm::length(halfSize);
+  data.sphere.position = object->transform()->worldPosition() + halfSize + mesh->aabb().min * scale;
+
+  object->cullingData(data);
 }
 
 GameObjectPtr Level::_loadHierarchy(HierarchyDataPtr hierarchy, const GameObjectPtr parentObj) {
@@ -175,10 +200,12 @@ GameObjectPtr Level::_loadHierarchy(HierarchyDataPtr hierarchy, const GameObject
       bundle = _props;
     }
 
+    bool setSphereBounds = false;
     if (child->isLight) {
       object = _createLight(child);
     } else if (referenceNode && referenceNode->hasGeometry) {
       object = _createMeshObject(bundle, referenceNode, parent);
+      setSphereBounds = (bool)arch; // Architecture has sphere bounds
     } else if (child->name.find("Projector") != std::string::npos) {
       object = _createProjector(child);
     } else {
@@ -191,6 +218,10 @@ GameObjectPtr Level::_loadHierarchy(HierarchyDataPtr hierarchy, const GameObject
       object->name(child->name);
 
       _loadHierarchy(child, object);
+
+      if (setSphereBounds) {
+        _setSphereBounds(object);
+      }
     }
   }
 

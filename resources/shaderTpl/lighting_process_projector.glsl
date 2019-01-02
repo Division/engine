@@ -9,10 +9,11 @@
     vec4 projectedTextureUV = projectors[projectorIndex].projectionMatrix * vPosition_worldspace;
     projectedTextureUV /= projectedTextureUV.w;
     projectedTextureUV = (projectedTextureUV + 1.0) / 2.0;
+    float projectorBias = 0.001;
     if ((projectors[projectorIndex].mask & objectParams.layer) > 0u
-        && projectedTextureUV.x >= 0.0 && projectedTextureUV.x < 1.0
-        && projectedTextureUV.y >= 0.0 && projectedTextureUV.y < 1.0
-        && projectedTextureUV.z >= 0.0 && projectedTextureUV.z < 1.0) {
+        && projectedTextureUV.x > projectorBias && projectedTextureUV.x < 1.0 - projectorBias
+        && projectedTextureUV.y > projectorBias && projectedTextureUV.y < 1.0 - projectorBias
+        && projectedTextureUV.z > projectorBias && projectedTextureUV.z < 1.0 - projectorBias) {
       vec2 spritesheetUV = projectedTextureUV.xy * projectors[projectorIndex].scale + projectors[projectorIndex].offset;
       vec4 projectedTexture = texture(uProjectorTexture, spritesheetUV) * projectors[projectorIndex].color;
 
