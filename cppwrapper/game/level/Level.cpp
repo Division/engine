@@ -19,7 +19,7 @@ const unsigned int LAYER_WINDOW = 1 << 5;
 const unsigned int LAYER_ROOM1 = 1 << 10;
 const unsigned int LAYER_ROOM2 = 1 << 11;
 const unsigned int LAYER_ROOM3 = 1 << 12;
-const unsigned int LAYER_ALL_ROOMS = LAYER_ROOM1 | LAYER_ROOM2;
+//const unsigned int LAYER_ALL_ROOMS = LAYER_ROOM1 | LAYER_ROOM2;
 const unsigned int LAYER_FLOOR = 1 << 9;
 
 const std::string ATLAS_ARCHITECTURE = "resources/level/Atlas_Base_01.jpg";

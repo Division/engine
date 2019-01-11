@@ -28,8 +28,6 @@ private:
   CameraPtr _camera2D;
   std::shared_ptr<FollowCamera> _camera;
 
-  float _inputInterval = 0;
-
 private:
   void _updateGameLogic(float dt);
 

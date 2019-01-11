@@ -114,6 +114,6 @@ void Game::_updateInput(float dt) {
 void Game::_updateGameLogic(float dt) {
   auto depthTexture = getEngine()->sceneRenderer()->shadowMapDepthTexture();
   if (depthTexture) {
-    _engine->debugDraw()->drawDepthImage(depthTexture, vec4(-600, -400, 300, 300), vec2(0.05f, 40.0f));
+    _engine->debugDraw()->drawDepthImage(depthTexture, vec4(-960 + 150, -400, 300, 300), vec2(0.05f, 40.0f));
   }
 }
