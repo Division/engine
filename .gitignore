@@ -7,4 +7,4 @@ dist
 cmake-build-debug/
 build_js/
 build_xcode/
-
+.vs/

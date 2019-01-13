@@ -104,8 +104,8 @@ void Game::_updateInput(float dt) {
   }
 
   if (input->keyDown(Key::MouseLeft)) {
-    camXAngle -= input->mouseDelta().y * 0.008;
-    camYAngle -= input->mouseDelta().x * 0.008;
+    camXAngle -= input->mouseDelta().y * 0.008f;
+    camYAngle -= input->mouseDelta().x * 0.008f;
   }
 
   _camera->transform()->translate(posDelta * dt * 20.0f);

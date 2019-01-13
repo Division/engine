@@ -74,7 +74,7 @@ GameObjectPtr Level::_createLight(HierarchyDataPtr &child) {
   }
 
   light->radius(10);
-  light->attenuation(1.2);
+  light->attenuation(1.2f);
   light->setFlare(_flareTexture, 1);
 //  light->enableDebug();
 
@@ -91,8 +91,8 @@ GameObjectPtr Level::_createProjector(HierarchyDataPtr &child) {
   projector->zFar(fabs(scale.z));
   projector->aspect(scale.x / scale.y);
 
-  projector->zNear(0.005);
-  projector->attenuation(0.0, 0.00);
+  projector->zNear(0.005f);
+  projector->attenuation(0.0, 0.0);
   projector->orthographicSize(scale.y);
   projector->color(vec4(2, 2, 2, 1));
 //  projector->setDebugEnabled(true);

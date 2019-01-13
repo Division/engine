@@ -43,8 +43,8 @@ void FollowCamera::update(float dt) {
     }
 
     if (input->keyDown(Key::MouseLeft)) {
-      _angleX -= input->mouseDelta().y * 0.008;
-      _angleY -= input->mouseDelta().x * 0.008;
+      _angleX -= input->mouseDelta().y * 0.008f;
+      _angleY -= input->mouseDelta().x * 0.008f;
     }
 
     transform()->translate(posDelta * dt * 20.0f);
@@ -62,8 +62,8 @@ void FollowCamera::setFreeCamera(bool isFree) {
     vec3 position = transform()->worldPosition();
     transform()->parent(nullptr);
     transform()->position(position);
-    _angleX = -M_PI / 8;
-    _angleY = M_PI;
+    _angleX = -(float)M_PI / 8;
+    _angleY = (float)M_PI;
   } else {
     transform()->parent(_container.lock()->transform());
     transform()->position(vec3(0, 0, 15));

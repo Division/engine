@@ -17,7 +17,7 @@ public:
   void setPlayer(std::shared_ptr<PlayerController> player);
   void setFreeCamera(bool isFree);
 private:
-  float _angleX = -M_PI / 8;
+  float _angleX = -(float)M_PI / 8.0f;
   float _angleY = 0;
   bool _isFreeCamera = false;
   std::weak_ptr<PlayerController> _player;
